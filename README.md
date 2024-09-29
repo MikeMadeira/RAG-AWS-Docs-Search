@@ -18,9 +18,7 @@ We addressed these with:
 
 1. **A Q&A interface**: Users can input questions directly, receiving real-time answers generated from the available documentation.
 
-2. **Automated retrieval**: The system can search for relevant document chunks using an embedding-based FAISS index.
-
-ALTERNATIVE: Handles documents updates
+2. **Handles documents updates**: The system has a trigger implemented to run the processing function which will update the embeddings.
 
 3. **Pointing to Sources**: The system returns the answer along with the source document for further reading.
 
