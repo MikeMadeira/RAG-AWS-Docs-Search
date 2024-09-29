@@ -53,9 +53,9 @@ The solution is AWS-based, leveraging scalability, cost-efficiency, and the secu
 1. **Clone the Repository**:
 
     ```
-    git clone https://github.com/yourrepo/RAG_AWS.git
+    git clone https://github.com/MikeMadeira/RAG-AWS-Docs-Search.git
 
-    cd RAG_AWS
+    cd RAG-AWS-Docs-Search
     ```
 
 2. Ensure Docker and Docker compose are installed. [The steps can be seen here](./instructions/docker_setup.md)
