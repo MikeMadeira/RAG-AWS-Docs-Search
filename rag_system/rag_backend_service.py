@@ -83,7 +83,7 @@ def retrieve_chunks_from_db(query_embedding, faiss_index, top_k=5):
             logger.info(f"Table item: {response}")
             # Check if any items were returned
             if 'Items' in response and response['Items']:
-                logger.info(f"Response Item: {response['Item']}")
+                logger.info(f"Response Item: {response['Items'][0]}")
                 chunk = response['Items'][0]['chunk']
                 file_key = response['Items'][0]['file_key']  # Retrieve the associated file key
                 

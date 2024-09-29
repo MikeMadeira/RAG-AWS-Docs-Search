@@ -4,6 +4,10 @@
 
 This project addresses the challenge of efficiently searching through a large dataset of documentation. Company X noticed their developers often spend too much time searching for documentation or asking other team members simple questions. We implemented a Proof of Concept (PoC) for a Retrieval-Augmented Generation (RAG) system, which uses an AWS-based architecture to significantly reduce the time required to retrieve relevant information from documents.
 
+<p align="center">
+  <img src="./images/rag-aws-demo.gif" alt="Flow"/>
+</p>
+
 ## Solution to Pain Points:
 
 The primary pain points we addressed:
