@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  flask-backend:
+    build:
+      context: .  # Path to your backend Dockerfile and code
+    container_name: flask-backend
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    environment:
+      - FLASK_ENV=development  # Optional: Set the environment to development
+
+  streamlit-frontend:
+    build:
+      context: ./frontend_qa  # Path to your frontend Dockerfile and code
+    container_name: streamlit-frontend
+    ports:
+      - "8501:8501"
+    networks:
+      - app-network
+    depends_on:
+      - flask-backend
+
+networks:
+  app-network:
+    driver: bridge
