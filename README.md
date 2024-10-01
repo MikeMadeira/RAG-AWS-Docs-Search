@@ -104,11 +104,11 @@ The main idea is to test the feature to handle document updates already in AWS w
     ```
 5. Build and Deploy a Lambda function with the docker image of the documentation processing function
     ```
-    ./scripts/deploy_lambda_docker.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name> <role_name> <bucket_name>
+    ./docs_lambda_function/deploy_lambda_docker.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name> <role_name> <bucket_name>
     ```
     If the docker image suffered an update run the update lambda function script instead
     ```
-    ./scripts/update_lambda_function.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name>
+    ./docs_lambda_function/update_lambda_function.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name>
     ```
 
 6. Upload the files to S3 to trigger Lambda function
