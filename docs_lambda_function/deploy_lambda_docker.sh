@@ -56,6 +56,9 @@ aws iam create-role \
   }') \
   --region $AWS_REGION
 
+echo "=== Wait for Role to be created ==="
+sleep 15
+
 echo "Attaching policies to the role..."
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AWSLambda_FullAccess
@@ -63,7 +66,7 @@ aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
 echo "Execution role created and policies attached."
 
-echo "=== Step 7: Wait for Role to Propagate ==="
+echo "=== Step 7: Wait for Role to Propagate and Policies to be applied ==="
 sleep 15
 ROLE_ARN=$(aws iam get-role --role-name $ROLE_NAME --query 'Role.Arn' --output text)
 echo "ROLE ARN: $ROLE_ARN"
@@ -90,7 +93,8 @@ aws lambda add-permission \
   --region $AWS_REGION
 echo "Lambda permission for S3 added."
 
-echo "=== Step 10: Fetch Lambda ARN ==="
+echo "=== Step 10: Wait 30s for Permission to be applied and fetch Lambda ARN ==="
+sleep 30
 LAMBDA_ARN=$(aws lambda get-function --function-name $LAMBDA_NAME --query 'Configuration.FunctionArn' --output text)
 echo "Lambda function ARN: $LAMBDA_ARN"
 

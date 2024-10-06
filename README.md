@@ -91,30 +91,34 @@ The main idea is to test the feature to handle document updates already in AWS w
 2. Attach the necessary policies to create and manage AWS resources
 
     ```
-    ./scripts/attach_user_policies.sh <your-iam-user>
+    . scripts/attach_user_policies.sh <your-iam-user>
     ```
 
 3. Create S3 bucket
     ```
-    ./scripts/create_s3_bucket.sh <bucket-name> <region>
+    . scripts/create_s3_bucket.sh <bucket-name> <region>
     ```
 4. Create Dynamo Table with the script
     ```
-    ./scripts/create_dynamo_table.sh <table-name> <region>
+    . scripts/create_dynamo_table.sh <table-name> <region>
     ```
 5. Build and Deploy a Lambda function with the docker image of the documentation processing function
     ```
-    ./docs_lambda_function/deploy_lambda_docker.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name> <role_name> <bucket_name>
+    cd docs_lambda_function 
+
+    . deploy_lambda_docker.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name> <role_name> <bucket_name>
     ```
     If the docker image suffered an update run the update lambda function script instead
     ```
-    ./docs_lambda_function/update_lambda_function.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name>
+    . update_lambda_function.sh <aws_region> <ecr_repo_name> <image_tag> <lambda_name>
     ```
 
 6. Upload the files to S3 to trigger Lambda function
     - This will create a trigger for the documentation processing function to start extracting and saving chunks, embeddings and the FAISS index in the Dynamo table and S3. 
         ```
-        python ./scripts/upload_to_s3.py ../data/ aws-test-docs-loka sagemaker_documentation
+        cd ../scripts
+
+        python upload_to_s3.py ../data/ <bucket_name> <folder_name>
         ```
 
 7. Build and run the backend and frontend images
@@ -138,7 +142,7 @@ To reproduce the full pipeline step by step and check what would the expected re
 
     - Working on the [script](./rag_system/deploy-rag-aws-infrastructure.sh) to create the infrastructure with AWS CLI commands and Docker commands.
 
-2. Access the frontend interface through this URL http://rag-aws-alb-frontend-1967858662.eu-north-1.elb.amazonaws.com/  
+2. Access the frontend interface through this URL http://rag-aws-frontend-alb-623214710.eu-north-1.elb.amazonaws.com/  
 
 ## Next Steps
 

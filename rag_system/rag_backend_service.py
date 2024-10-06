@@ -29,6 +29,8 @@ load_dotenv()
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.getenv("AWS_REGION")
+BUCKET_NAME = os.getenv("BUCKET_NAME")
+TABLE_NAME = os.getenv("TABLE_NAME")
 
 # Initialize the S3 client with the credentials
 s3 = boto3.client(
@@ -45,7 +47,7 @@ dynamodb = boto3.resource(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
-table = dynamodb.Table('aws_test_docs_chunks')  # Use your DynamoDB table name
+table = dynamodb.Table(TABLE_NAME)  # Use your DynamoDB table name
 
 # Load Sentence Transformer Model
 model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -134,6 +136,10 @@ app = Flask(__name__)
 # Enable CORS for all routes
 CORS(app)
 
+@app.route('/', methods=['GET'])
+def root():
+    return "This is the backend root.", 200
+
 @app.route('/query', methods=['POST'])
 def handle_query():
     data = request.get_json()
@@ -144,8 +150,8 @@ def handle_query():
         query_embedding = model.encode([query])
 
         # Load FAISS index from S3
-        s3_index_bucket = 'aws-test-docs-loka'
-        s3_index_key = 'faiss_index.index'
+        s3_index_bucket = BUCKET_NAME
+        s3_index_key = 'faiss/faiss_index.index'
         faiss_index = load_faiss_index_from_s3(s3_index_bucket, s3_index_key)
 
         # Retrieve chunks and file keys from DynamoDB

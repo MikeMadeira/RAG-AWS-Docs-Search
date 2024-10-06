@@ -16,6 +16,9 @@ os.environ['HF_METRICS_CACHE'] = '/tmp'
 from sentence_transformers import SentenceTransformer
 
 AWS_REGION = 'eu-north-1'
+DOCS_BUCKET_NAME = 'aws-docs-loka-bk'
+INDEX_BUCKET_NAME = 'test-docs-loka'
+S3_FOLDER_NAME = 'sagemaker_documentation/'
 
 # Initialize the S3 client (AWS Lambda automatically handles the credentials)
 s3 = boto3.client('s3')
@@ -25,7 +28,7 @@ dynamodb = boto3.resource(
     'dynamodb',
     region_name=AWS_REGION
 )
-table = dynamodb.Table('aws_test_docs_chunks')  # Use your DynamoDB table name
+table = dynamodb.Table('test_docs_chunks')  # Use your DynamoDB table name
 
 # Load Sentence Transformer Model
 model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -140,8 +143,8 @@ def process_all_files_in_s3_folder(bucket_name, folder_name, s3_index_bucket, s3
         all_embeddings.append(embeddings)
         
         # Step 4: Save chunks, embeddings, and FAISS indices to DynamoDB
-        save_chunks_and_faiss_indices_to_db(file_key, chunks, embeddings, faiss_index)
-    
+        faiss_index = save_chunks_and_faiss_indices_to_db(file_key, chunks, embeddings, faiss_index)
+        logger.info(f"DB FAISS index: {faiss_index}")
     if not all_embeddings:
         logger.error("No valid embeddings found for any file. Skipping FAISS index creation.")
         return
@@ -161,9 +164,9 @@ def process_all_files_in_s3_folder(bucket_name, folder_name, s3_index_bucket, s3
 
 # Example usage
 if __name__ == '__main__':
-    bucket_name = 'aws-test-docs-loka'  # Your S3 bucket name
-    folder_name = 'sagemaker_documentation/'  # Folder within the S3 bucket
-    s3_index_bucket = 'aws-test-docs-loka'  # The S3 bucket where FAISS index will be saved
-    s3_index_key = 'faiss_index.index'  # S3 key for FAISS index
+    bucket_name = DOCS_BUCKET_NAME  # Your S3 bucket name
+    folder_name = S3_FOLDER_NAME  # Folder within the S3 bucket
+    s3_index_bucket = INDEX_BUCKET_NAME  # The S3 bucket where FAISS index will be saved
+    s3_index_key = 'faiss/faiss_index.index'  # S3 key for FAISS index
 
     process_all_files_in_s3_folder(bucket_name, folder_name, s3_index_bucket, s3_index_key)

@@ -11,11 +11,11 @@
     sudo docker login -u AWS -p $(aws ecr get-login-password --region eu-north-1) <account-id>.dkr.ecr.eu-north-1.amazonaws.com
 
 ### Tag the backend Docker image for ECR
-    sudo docker tag rag-system_flask-backend <account-id>.dkr.ecr.eu-north-1.amazonaws.com/flask-backend-rag-aws:latest
+    sudo docker tag rag_system_flask-backend <account-id>.dkr.ecr.eu-north-1.amazonaws.com/flask-backend-rag-aws:latest
 ### Push the backend image to ECR
     sudo docker push <account-id>.dkr.ecr.eu-north-1.amazonaws.com/flask-backend-rag-aws:latest 
 ### Tag the Frontend Image to ECR
-    sudo docker tag rag-system_streamlit-frontend <account-id>.dkr.ecr.eu-north-1.amazonaws.com/streamlit-frontend-rag-aws:latest 
+    sudo docker tag rag_system_streamlit-frontend <account-id>.dkr.ecr.eu-north-1.amazonaws.com/streamlit-frontend-rag-aws:latest 
 ### Push the frontend image to ECR
     sudo docker push <account-id>.dkr.ecr.eu-north-1.amazonaws.com/streamlit-frontend-rag-aws:latest
 

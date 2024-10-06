@@ -21,7 +21,7 @@ query = st.text_input("Enter your search query:")
 
 # Backend API URL
 # backend_api_url = "http://flask-backend:5000/query"  # Backend Flask API locally
-backend_api_url = "http://rag-aws-alb-backend-1015498497.eu-north-1.elb.amazonaws.com:5000/query" # Backend Flask on AWS
+backend_api_url = "http://rag-aws-backend-alb-890594434.eu-north-1.elb.amazonaws.com:5000/query" # Backend Flask on AWS
 
 if query:
     logger.info(f"User query: {query}")
